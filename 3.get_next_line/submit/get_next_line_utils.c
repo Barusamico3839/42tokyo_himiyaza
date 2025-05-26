@@ -1,55 +1,99 @@
-// filepath: /get_next_line/get_next_line/get_next_line_utils.c
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/19 16:20:13 by himiyaza          #+#    #+#             */
+/*   Updated: 2025/05/19 16:33:55 by himiyaza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
-#include <stdlib.h>
 
-static char *ft_strjoin(char *s1, char *s2)
+// 文字数数える。１から。
+size_t	ft_strlen(const char *s)
 {
-    char *result;
-    size_t len1;
-    size_t len2;
-    size_t i;
+	size_t	i;
 
-    len1 = (s1) ? strlen(s1) : 0;
-    len2 = (s2) ? strlen(s2) : 0;
-    result = malloc(len1 + len2 + 1);
-    if (!result)
-        return (NULL);
-    i = 0;
-    if (s1)
-    {
-        while (*s1)
-            result[i++] = *s1++;
-    }
-    while (*s2)
-        result[i++] = *s2++;
-    result[i] = '\0';
-    free(s1);
-    return (result);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
-static char *ft_strdup(const char *s)
+// s1をduplicateして、戻り値に新しい文字列のポインタを返す。
+char	*ft_strdup(const char *s1)
 {
-    char *dup;
-    size_t len;
-    size_t i;
+	char	*dup;
+	size_t	i;
 
-    len = strlen(s);
-    dup = malloc(len + 1);
-    if (!dup)
-        return (NULL);
-    for (i = 0; i < len; i++)
-        dup[i] = s[i];
-    dup[len] = '\0';
-    return (dup);
+	dup = malloc((ft_strlen(s1) + 1) * sizeof(char));
+	if (dup == NULL)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		dup[i] = s1[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }
 
-static size_t ft_strlen(const char *s)
+//　文字列ｓのstart番目からlen分コピーして出力する。
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-    size_t len = 0;
+	char	*substring;
+	size_t	s_len;
+	size_t	i;
 
-    while (s[len])
-        len++;
-    return (len);
+	if (s == NULL)
+		return (NULL);
+	s_len = ft_strlen(s);
+	if (start >= s_len)
+		return (ft_strdup(""));
+	if (len > s_len - start)
+		len = s_len - start;
+	substring = (char *)malloc((len + 1) * sizeof(char));
+	if (substring == NULL)
+		return (NULL);
+	substring[len] = '\0';
+	i = 0;
+	while (i < len)
+	{
+		substring[i] = s[start + i];
+		i++;
+	}
+	return (substring);
 }
 
-// Additional utility functions can be added here as needed.
+// s1 とs2をつなげて返す関数
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*joined_str;
+	size_t	i;
+	size_t	j;
+
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	joined_str = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1)
+			* sizeof(char));
+	if (joined_str == NULL)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		joined_str[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+	{
+		joined_str[i + j] = s2[j];
+		j++;
+	}
+	joined_str[i + j] = '\0';
+	return (joined_str);
+}

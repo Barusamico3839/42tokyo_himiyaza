@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   a.c                                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 19:34:14 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/05/16 21:52:34 by himiyaza         ###   ########.fr       */
+/*   Created: 2025/05/21 21:18:18 by himiyaza          #+#    #+#             */
+/*   Updated: 2025/05/23 13:53:56 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"get_next_line.h"
 
 // s1 とs2をつなげて返す関数
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -41,15 +41,23 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (joined_str);
 }
 
-// int	main(int argc, char **argv)
-// {
-// 	char	*result;
+ssize_t read_and_join(int fd, void* buffer)
+{
+	ssize_t total_size_read;
+	ssize_t size_read = read(fd, buffer, BUFFER_SIZE);
+	if(size_read == -1)
+		return(-1);
+	total_size_read += size_read;
+	if(buffer == NULL)
+		return(total_size_read);
+	gnl_list->joined_str=ft_strjoin(gnl_list->joined_str, buffer);
+	read_and_join(fd, buffer);
+}
 
-// 	if (argc == 3)
-// 	{
-// 		result = ft_strjoin(argv[1], argv[2]);
-// 		printf("joined_str is: %s\n", result);
-// 		free(result);
-// 	}
-// 	return (0);
-// }
+char	*get_next_line(int fd)
+{
+	void *buffer = malloc((BUFFER_SIZE + 1)* sizeof(char));
+	if(buffer == NULL)
+		return(NULL);
+	read_and_join(fd, buffer);
+}

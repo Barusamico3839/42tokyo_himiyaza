@@ -6,160 +6,163 @@
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:44:20 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/05/17 23:06:48 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:29:11 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "get_next_line.h"
-#include <stdlib.h>
-#include <unistd.h> //malloc
-#define BUFFER_SIZE 5
+#include "get_next_line.h"
 
-// 文字数数える。１から。
-size_t	ft_strlen(const char *s)
+static int	error_check(int fd, char **leftover, char **concatenated_str)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (-1);
+	if (*leftover == NULL)
+	{
+		*leftover = ft_strdup("");
+		if (*leftover == NULL)
+			return (-1);
+	}
+	*concatenated_str = ft_strdup(*leftover);
+	if (*concatenated_str == NULL)
+		return (-1);
+	return (0);
 }
 
-// s1をduplicateして、戻り値に新しい文字列のポインタを返す。
-char	*ft_strdup(const char *s1)
+static char	*concatenation(char *concatenated_str, char *tenate)
 {
-	char	*dup;
-	size_t	i;
+	char	*conca;
 
-	dup = malloc((ft_strlen(s1) + 1) * sizeof(char));
-	if (dup == NULL)
-		return (NULL);
-	i = 0;
-	while (s1[i])
+	if (!tenate)
+		return (concatenated_str);
+	conca = concatenated_str;
+	concatenated_str = ft_strjoin(conca, tenate);
+	if (concatenated_str == NULL)
 	{
-		dup[i] = s1[i];
-		i++;
+		free(conca);
+		free(tenate);
+		return (NULL);
 	}
-	dup[i] = '\0';
-	return (dup);
+	free(tenate);
+	free(conca);
+	return (concatenated_str);
 }
 
-//　文字列ｓのstart番目からlen分コピーして出力する。
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+static int	buffer_kara_find_kaigyou(ssize_t bytes_read, char **bf,
+		char **concatenated_str, char **leftover, char **tenate)
 {
-	char	*substring;
-	size_t	s_len;
-	size_t	i;
+	ssize_t	i;
+	char	*leftover_tmp;
+	int		kaigyou_atta;
 
-	if (s == NULL)
-		return (NULL);
-	s_len = ft_strlen(s);
-	if (start >= s_len)
-		return (ft_strdup(""));
-	if (len > s_len - start)
-		len = s_len - start;
-	substring = (char *)malloc((len + 1) * sizeof(char));
-	if (substring == NULL)
-		return (NULL);
-	substring[len] = '\0';
 	i = 0;
-	while (i < len)
+	*tenate = NULL;
+	kaigyou_atta = 0;
+	while (i < bytes_read)
 	{
-		substring[i] = s[start + i];
+		if ((*bf)[i] == '\n')
+		{
+			*tenate = ft_substr(*bf, 0, i + 1);
+			if (*tenate == NULL)
+				return (free(*bf), free(*concatenated_str), *bf = NULL,
+					*concatenated_str = NULL, -1);
+			leftover_tmp = *leftover;
+			*leftover = ft_substr(*bf, i + 1, bytes_read - i - 1);
+			if (*leftover == NULL)
+			{
+				if (leftover_tmp)
+					free(leftover_tmp);
+				*leftover = ft_strdup("");
+				if (*leftover == NULL)
+					return (-1);
+				return (free(*bf), free(*tenate), free(*concatenated_str),
+					*bf = NULL, *tenate = NULL, *concatenated_str = NULL, -1);
+			}
+			return (free(leftover_tmp), free(*bf), *bf = NULL, kaigyou_atta = 1,
+				kaigyou_atta);
+		}
 		i++;
 	}
-	return (substring);
+	if (i == bytes_read && kaigyou_atta == 0)
+	{
+		*tenate = ft_substr(*bf, 0, i);
+		free(*bf);
+		*bf = NULL;
+		if (*tenate == NULL)
+			return (free(*concatenated_str), *concatenated_str = NULL, -1);
+	}
+	return (kaigyou_atta);
 }
 
-// s1 とs2をつなげて返す関数
-char	*ft_strjoin(char const *s1, char const *s2)
+static int	buffer_read(int fd, char **concatenated_str, char **leftover,
+		char **buffer)
 {
-	char	*joined_str;
-	size_t	i;
-	size_t	j;
+	ssize_t	bytes_read;
 
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	joined_str = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1)
-			* sizeof(char));
-	if (joined_str == NULL)
-		return (NULL);
-	i = 0;
-	while (s1[i])
+	*buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (*buffer == NULL)
 	{
-		joined_str[i] = s1[i];
-		i++;
+		free(*concatenated_str);
+		*concatenated_str = NULL;
+		return (-1);
 	}
-	j = 0;
-	while (s2[j])
+	bytes_read = read(fd, *buffer, BUFFER_SIZE);
+	if (bytes_read <= 0)
 	{
-		joined_str[i + j] = s2[j];
-		j++;
+		free(*buffer);
+		*buffer = NULL;
+		if (bytes_read == 0 && **concatenated_str != '\0')
+			return (0);
+		free(*concatenated_str);
+		*concatenated_str = NULL;
+		if (*leftover)
+		{
+			free(*leftover);
+			*leftover = NULL;
+		}
+		return (-1);
 	}
-	joined_str[i + j] = '\0';
-	return (joined_str);
+	(*buffer)[bytes_read] = '\0';
+	return (bytes_read);
 }
 
-// ファイルディスクリプタから1行ずつテキストを読み込む
+static int	nakami(int fd, char **leftover, char **concatenated_str)
+{
+	int		kaigyou_atta;
+	char	*buffer;
+	ssize_t	bytes_read;
+	char	*tenate;
+
+	buffer = NULL;
+	kaigyou_atta = 0;
+	tenate = NULL;
+	while (kaigyou_atta == 0)
+	{
+		bytes_read = buffer_read(fd, concatenated_str, leftover, &buffer);
+		if (bytes_read == -1)
+			return (-1);
+		kaigyou_atta = buffer_kara_find_kaigyou(bytes_read, &buffer,
+				concatenated_str, leftover, &tenate);
+		if (kaigyou_atta == -1)
+			return (-1);
+		*concatenated_str = concatenation(*concatenated_str, tenate);
+		if (*concatenated_str == NULL)
+			return (-1);
+	}
+	return (0);
+}
+
 char	*get_next_line(int fd)
 {
-	char			*buffer;
-	static char			*str = "";
-	char			*tmp;
-	int				error_check;
-	int				flag;
-	size_t	i;
+	char *concatenated_str;
+	static char *leftover = NULL;
+	int error;
 
-	flag = 0;
-	buffer = malloc(BUFFER_SIZE * sizeof(char));
-	if (buffer == NULL)
+	concatenated_str = NULL;
+	error = error_check(fd, &leftover, &concatenated_str);
+	if (error == -1)
 		return (NULL);
-	i = 0;
-	while (flag == 0)
-	{
-		error_check = read(fd, buffer, BUFFER_SIZE);
-		if (error_check == -1)
-		{
-			free(buffer);
-			return (NULL);
-		}
-		while (i < error_check)
-		{
-			if (buffer[i] == '\n' || buffer[i] == '\0')
-			{
-				buffer = ft_substr(buffer, 0, i);
-				flag = 1;
-			}
-			i++;
-		}
-	}
-	str = ft_strjoin(str, buffer);
-	free(buffer);
-	return (str);
-}
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-int	main(void)
-{
-	int		fd;
-	char	*line;
-
-	fd = open("test.txt", O_RDONLY);
-	if (fd < 0)
-	{
-		perror("open");
-		return (1);
-	}
-	line = get_next_line(fd);
-	while (line)
-	{
-		printf("%s", line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
-	return (0);
+	error = nakami(fd, &leftover, &concatenated_str);
+	if (error == -1)
+		return (NULL);
+	return (concatenated_str);
 }
