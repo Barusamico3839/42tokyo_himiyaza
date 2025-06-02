@@ -6,7 +6,7 @@
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 21:18:18 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/05/23 13:53:56 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/05/31 02:45:44 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,11 @@ ssize_t read_and_join(int fd, void* buffer)
 	if(buffer == NULL)
 		return(total_size_read);
 	gnl_list->joined_str=ft_strjoin(gnl_list->joined_str, buffer);
-	read_and_join(fd, buffer);
+	return(read_and_join(fd, buffer));
 }
+
+
+
 
 char	*get_next_line(int fd)
 {

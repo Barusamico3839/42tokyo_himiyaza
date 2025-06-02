@@ -1,1 +1,1 @@
-baf35ff5b9f2bf7bcbff0d6ae4527101efffefe6  born2beroot_test3.vdi
+0ef2a1b9736f7ccc0655585c6fec17439288ce9b  born2beroot_test6 clone.vdi
