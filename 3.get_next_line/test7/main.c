@@ -19,7 +19,7 @@ int	main(void)
 	while (line && i < 10)
 	{
 		printf("%zu : %s", i + 1, line);
-		free(line);
+		// free(line);
 		line = get_next_line(fd);
 		i++;
 	}

@@ -23,10 +23,10 @@ $(NAME): $(OBJ)
 
 # テスト実行ファイル作成
 test: $(NAME)
-	$(CC) $(CFLAGS) -g -D BUFFER_SIZE=$(BUFFER_SIZE) -o $(TEST_OUT) $(TEST_SRC) get_next_line.a
+	$(CC) $(CFLAGS) -g -D BUFFER_SIZE=$(BUFFER_SIZE) -o $(TEST_OUT) $(TEST_SRC) $(OBJ)
 
 # オブジェクトファイル作成
-%.o: %.c
+%.o: %.c get_next_line.h
 	$(CC) $(CFLAGS) -D BUFFER_SIZE=$(BUFFER_SIZE) -c $< -o $@
 
 # クリーンアップ
@@ -45,4 +45,4 @@ re: fclean all
 #bonus: $(BONUS_OBJ)
 #	ar rcs $(NAME) $(BONUS_OBJ)
 
-.PHONY: all clean fclean re test bonus
+.PHONY: all clean fclean re test #bonus

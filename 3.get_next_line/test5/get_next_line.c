@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   a.c                                                :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 21:18:18 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/05/31 02:45:44 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/06/02 20:39:09 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"get_next_line.h"
+#include "get_next_line.h"
 
 // s1 とs2をつなげて返す関数
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -41,26 +41,29 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (joined_str);
 }
 
-ssize_t read_and_join(int fd, void* buffer)
+ssize_t	read_and_join(int fd, void *buffer, gnl_list *first)
 {
-	ssize_t total_size_read;
-	ssize_t size_read = read(fd, buffer, BUFFER_SIZE);
-	if(size_read == -1)
-		return(-1);
+	ssize_t	total_size_read;
+	ssize_t	size_read;
+
+	size_read = read(fd, buffer, BUFFER_SIZE);
+	if (size_read == -1)
+		return (-1);
 	total_size_read += size_read;
-	if(buffer == NULL)
-		return(total_size_read);
-	gnl_list->joined_str=ft_strjoin(gnl_list->joined_str, buffer);
-	return(read_and_join(fd, buffer));
+	if (buffer == NULL)
+		return (total_size_read);
+	first->joined_str = ft_strjoin(first->joined_str, buffer);
+	return (read_and_join(fd, buffer, &first->joined_str));
 }
-
-
-
 
 char	*get_next_line(int fd)
 {
-	void *buffer = malloc((BUFFER_SIZE + 1)* sizeof(char));
-	if(buffer == NULL)
-		return(NULL);
-	read_and_join(fd, buffer);
+	gnl_list *first;
+	void *buffer;
+	
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (buffer == NULL)
+		return (NULL);
+	read_and_join(fd, buffer, &first->joined_str);
+	return (first->joined_str);
 }
