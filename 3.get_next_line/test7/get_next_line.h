@@ -6,13 +6,16 @@
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:15:05 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/03 19:12:39 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:45:47 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 42
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 1
+#endif 
 
 # include <stdlib.h>
 # include <unistd.h>

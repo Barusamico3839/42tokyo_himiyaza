@@ -8,18 +8,21 @@ int	main(void)
 	char *line;
 	size_t i;
 
-	fd = open("test.txt", O_RDONLY);
-	if (fd < 0)
-	{
-		perror("open");
-		return (1);
-	}
+	fd = open("empty", O_RDONLY);
+	close(fd);
 	line = get_next_line(fd);
+	line = get_next_line(fd);
+	line = get_next_line(fd);
+	line = get_next_line(fd);
+	line = get_next_line(fd);
+	
+	printf("test:%s",line);
 	i = 0;
+	printf("test2\n");
 	while (line && i < 10)
 	{
 		printf("%zu : %s", i + 1, line);
-		// free(line);
+		free(line);
 		line = get_next_line(fd);
 		i++;
 	}

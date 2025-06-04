@@ -6,7 +6,7 @@
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:59:21 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/03 19:12:47 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:52:11 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ char	*ft_strdup(const char *s)
 	size_t	i;
 
 	i = 0;
+	
+	if (s == NULL)
+		return (NULL);
 	duped_str = malloc((ft_strlen(s) + 1) * sizeof(char));
 	if (duped_str == NULL)
 		return (NULL);

@@ -1,6 +1,6 @@
 NAME = get_next_line.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 SRC = get_next_line.c get_next_line_utils.c
 OBJ = $(SRC:.c=.o)
 TEST_SRC = main.c
