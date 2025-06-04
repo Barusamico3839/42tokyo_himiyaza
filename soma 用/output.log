@@ -1,0 +1,8 @@
+==== Run {1..20} ====
+✅ malloc succeeded (11 bytes)
+✅ malloc succeeded (1 bytes)
+✅ malloc succeeded (11 bytes)
+✅ malloc succeeded (21 bytes)
+✅ malloc succeeded (31 bytes)
+✅ malloc succeeded (41 bytes)
+❌ malloc failed intentionally!
