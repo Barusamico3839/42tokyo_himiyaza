@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 17:50:59 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/10 15:24:52 by himiyaza         ###   ########.fr       */
+/*   Created: 2025/06/11 00:57:07 by himiyaza          #+#    #+#             */
+/*   Updated: 2025/06/11 01:01:59 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
 
-//  Iterates巡回 the list ’lst’ and applies the function ’f’ to the content
-void	ft_lstiter(t_list *lst, void (*f)(void *))
+typedef struct s_kouzoutai_maji_imifumei
 {
-	if (lst == NULL || f == NULL)
-		return ;
-	while (lst != NULL)
-	{
-		f(lst->content);
-		lst = lst->next;
-	}
-}
+    int             value;
+    struct s_kouzoutai_maji_imifumei  *prev;
+    struct s_kouzoutai_maji_imifumei  *next;
+} t_node;
+
+
+
+
+#endif

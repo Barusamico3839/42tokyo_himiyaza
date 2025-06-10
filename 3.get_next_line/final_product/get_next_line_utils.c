@@ -6,7 +6,7 @@
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:59:21 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/06 20:13:41 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:12:51 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,14 @@ char	*ft_strdup(const char *s)
 
 	i = 0;
 	if (s == NULL)
-		return (NULL);
-	duped_str = malloc((ft_strlen(s) + 1) * sizeof(char));
+	{
+		duped_str = my_malloc(1 * sizeof(char));
+		if (duped_str == NULL)
+			return (NULL);
+		duped_str[0] = '\0';
+		return (duped_str);
+	}
+	duped_str = my_malloc((ft_strlen(s) + 1) * sizeof(char));
 	if (duped_str == NULL)
 		return (NULL);
 	while (s[i] != '\0')
@@ -58,6 +64,7 @@ char	*ft_strdup(const char *s)
 	return (duped_str);
 }
 
+//　文字列ｓのstart番目からlen分コピーして出力する。
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	s_len;
@@ -71,7 +78,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (ft_strdup(""));
 	if (len > s_len - start)
 		len = s_len - start;
-	substring = (char *)malloc((len + 1) * sizeof(char));
+	substring = (char *)my_malloc((len + 1) * sizeof(char));
 	if (substring == NULL)
 		return (NULL);
 	substring[len] = '\0';
@@ -95,7 +102,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
-	joined_str = malloc((len1 + len2 + 1) * sizeof(char));
+	joined_str = my_malloc((len1 + len2 + 1) * sizeof(char));
 	if (joined_str == NULL)
 		return (NULL);
 	i = -1;
@@ -112,16 +119,15 @@ char	*ft_strjoin(char *s1, char *s2)
 	joined_str[len1 + len2] = '\0';
 	return (joined_str);
 }
+#include <stdlib.h>
+#include <time.h>
 
-// #include <stdlib.h>
-// #include <time.h>
+void	*my_malloc(size_t size)
+{
+	int	chance;
 
-// void	*my_malloc(size_t size)
-// {
-// 	int	chance;
-
-// 	chance = rand() % 10;
-// 	if (chance == 0)
-// 		return (NULL);
-// 	return (malloc(size));
-// }
+	chance = rand() % 10;
+	if (chance == 0)
+		return (NULL);
+	return (malloc(size));
+}

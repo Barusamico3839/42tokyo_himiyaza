@@ -6,7 +6,7 @@
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:59:21 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/06 20:13:41 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:10:43 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,13 @@ char	*ft_strdup(const char *s)
 
 	i = 0;
 	if (s == NULL)
-		return (NULL);
+	{
+		duped_str = malloc(1 * sizeof(char));
+		if (duped_str == NULL)
+			return (NULL);
+		duped_str[0] = '\0';
+		return (duped_str);
+	}
 	duped_str = malloc((ft_strlen(s) + 1) * sizeof(char));
 	if (duped_str == NULL)
 		return (NULL);
@@ -58,6 +64,7 @@ char	*ft_strdup(const char *s)
 	return (duped_str);
 }
 
+//　文字列ｓのstart番目からlen分コピーして出力する。
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	s_len;
@@ -113,15 +120,15 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (joined_str);
 }
 
-// #include <stdlib.h>
-// #include <time.h>
+#include <stdlib.h>
+#include <time.h>
 
-// void	*my_malloc(size_t size)
-// {
-// 	int	chance;
+void	*my_malloc(size_t size)
+{
+	int	chance;
 
-// 	chance = rand() % 10;
-// 	if (chance == 0)
-// 		return (NULL);
-// 	return (malloc(size));
-// }
+	chance = rand() % 10;
+	if (chance == 0)
+		return (NULL);
+	return (malloc(size));
+}

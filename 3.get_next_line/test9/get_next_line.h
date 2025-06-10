@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 17:50:59 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/10 15:24:52 by himiyaza         ###   ########.fr       */
+/*   Created: 2025/06/03 18:15:05 by himiyaza          #+#    #+#             */
+/*   Updated: 2025/06/05 16:23:15 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-//  Iterates巡回 the list ’lst’ and applies the function ’f’ to the content
-void	ft_lstiter(t_list *lst, void (*f)(void *))
-{
-	if (lst == NULL || f == NULL)
-		return ;
-	while (lst != NULL)
-	{
-		f(lst->content);
-		lst = lst->next;
-	}
-}
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 100
+#endif 
+
+# include <stdlib.h>
+# include <unistd.h>
+
+size_t	ft_strlen(const char *s);
+char	*ft_strchr(char *whole, int to_find);
+char	*ft_strdup(const char *s);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strjoin(char *s1, char *s2);
+char	*get_next_line(int fd);
+
+#endif
