@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   5.sa_sb_ss.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:41:29 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/11 01:05:45 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/06/12 23:34:58 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 // sa (swap a): Swap the first 2 elements at the top of stack a.
 // Do nothing if there is only one element or none.
-
 void	sa(t_node **stack_a)
 {
 	t_node	*first;
@@ -25,26 +24,46 @@ void	sa(t_node **stack_a)
 		return ;
 	first = *stack_a;
 	second = first->next;
+	tmp = first->content;
+	first->content = second->content;
+	second->content = tmp;
 
-    tmp = first->value;
-	first->value = second->value;
-	second->value = tmp;
+	tmp = first -> index;
+	first->index = second->index;
+	second->index= tmp;
+
+	tmp = first -> mass;
+	first->mass = second->mass;
+	second->mass= tmp;
 }
 
 // sb (swap b): Swap the first 2 elements at the top of stack b.
 // Do nothing if there is only one element or none.
+void	sb(t_node **stack_b)
+{
+	t_node	*first;
+	t_node	*second;
+	int		tmp;
+
+	if (!stack_b || !*stack_b || !(*stack_b)->next)
+		return ;
+	first = *stack_b;
+	second = first->next;
+	tmp = first->content;
+	first->content = second->content;
+	second->content = tmp;
+
+	tmp = first -> index;
+	first->index = second->index;
+	second->index= tmp;
+
+	tmp = first -> mass;
+	first->mass = second->mass;
+	second->mass= tmp;
+}
 // ss : sa and sb at the same time.
-// pa (push a): Take the first element at the top of b and put it at the top of a.
-// Do nothing if b is empty.
-// pb (push b): Take the first element at the top of a and put it at the top of b.
-// Do nothing if a is empty.
-// ra (rotate a): Shift up all elements of stack a by 1.
-// The first element becomes the last one.
-// rb (rotate b): Shift up all elements of stack b by 1.
-// The first element becomes the last one.
-// rr : ra and rb at the same time.
-// rra (reverse rotate a): Shift down all elements of stack a by 1.
-// The last element becomes the first one.
-// rrb (reverse rotate b): Shift down all elements of stack b by 1.
-// The last element becomes the first one.
-// rrr : rra and rrb at the same time.
+void	ss(t_node **stack_a, t_node **stack_b)
+{
+    sa(stack_a);
+    sb(stack_b);
+}
