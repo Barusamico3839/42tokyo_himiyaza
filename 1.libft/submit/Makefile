@@ -3,7 +3,7 @@ NAME = libft.a
 
 # コンパイラとフラグの設定
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-std=c89
+CFLAGS = -Wall -Wextra -Werror 
 
 # アーカイブコマンド
 AR = ar rcs

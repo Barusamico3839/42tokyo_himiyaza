@@ -6,11 +6,38 @@
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:06:23 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/18 22:05:14 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/06/22 20:34:21 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+t_node *apply_lis_arr_to_list(int *arr_lis,t_node *stack_a)
+{
+	int starting_pos=0;
+	int i;
+	
+	while(starting_pos<100)
+	{
+		if(arr_lis[starting_pos]==1)
+		{
+			arr_lis[starting_pos]=2;
+			break;
+		}
+		stack_a = stack_a->next;
+		starting_pos++;
+	}
+	i= 0;
+	while(i < 100)
+	{
+		stack_a->lis_or_not = arr_lis[i + starting_pos];
+		stack_a = stack_a->next;
+		i++;
+	}
+	while(starting_pos-- > 0)
+		stack_a = stack_a->prev;
+	return (stack_a);
+}
 
 int	*stack_to_array(t_node *stack_a)
 {
@@ -39,21 +66,29 @@ int	*stack_to_array(t_node *stack_a)
 char	*ultimate_lis_turk100(t_node *stack_a)
 {
 	int		*arr_a;
-	int		arr_lis[200];
+	int		arr_lis[100];
 	int		arr_lis_len;
+	// int		starting_pos;
 	// char	*result;
 	int		i;
 
 	arr_a = stack_to_array(stack_a);
-	arr_lis_len = find_lis(arr_a, arr_lis);
-	// stack_a = apply_lis_arr_to_list(arr_lis_len, arr_lis, stack_a);
+	arr_lis_len = super_swapped_lis(arr_a, arr_lis);
+	// stack_a = apply_lis_arr_to_list(arr_lis, stack_a);
 	// result = turk(arr_lis_len, stack_a);
-	i = 0;
-	while (i < 200)
+	i=0;
+	while(i < 100)
 	{
-		printf("%d:%d\n", i, arr_lis[i]);
+		printf("%d:%d:%d\n", i, arr_lis[i], arr_a[i]);
 		i++;
 	}
+	// i = 0;
+	// while (i < 100)
+	// {
+	// 	printf("%d:%d\n", i, stack_a->lis_or_not);
+	// 	i++;
+	// 	stack_a = stack_a->next;
+	// }
 	printf("lis:%d\n", arr_lis_len);
 	return (NULL); // ここではまだresultを返さない
 }
