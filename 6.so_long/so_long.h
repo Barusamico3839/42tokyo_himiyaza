@@ -9,7 +9,7 @@
 # define VIEW_H 14
 # define MAX_ENEMIES 128
 # define MAP_FILES "3.maps/2p.ber"
-# define DIFFICULTY 2 // 1:easy, 2:normal, 3:hard
+# define DIFFICULTY 3 // 1:easy, 2:normal, 3:hard
 
 # include "1.srcs/get_next_line/get_next_line.h"
 # include "1.srcs/minilibx-linux/mlx.h"

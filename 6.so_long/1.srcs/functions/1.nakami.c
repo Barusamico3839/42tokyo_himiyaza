@@ -6,11 +6,22 @@
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 22:20:10 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/27 14:29:24 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:39:31 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../so_long.h"
+
+// void	maperror(void)
+// {
+// 	has_exit_startingpos();
+// 	has_1collectible();
+// 	is_rectangular();
+// 	is_sorrounded_by_walls();
+// 	has_valid_path();
+	
+// 	exit(1);
+// }
 
 int	difficulty_var(int variable)
 {
