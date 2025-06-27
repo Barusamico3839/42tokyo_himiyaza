@@ -6,7 +6,7 @@
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 21:26:35 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/27 03:38:56 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/06/06 20:13:08 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ char	*get_next_line(int fd)
 		return (free(head_body_nl), NULL);
 	return (head_body_nl);
 }
-
 
 // static int error_flag = 0;
 
