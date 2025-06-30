@@ -35,4 +35,7 @@ fclean: clean
 	xset r
 	rm -f $(NAME)
 
+re: fclean all
+	xset -r
+
 .PHONY: all clean fclean

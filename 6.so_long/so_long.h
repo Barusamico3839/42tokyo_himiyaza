@@ -8,20 +8,14 @@
 # define MAX_ENEMIES 128
 # define MAP_FILES "3.maps/2p.ber"
 # define DIFFICULTY 1 // 1:easy, 2:normal, 3:hard
+# define MODE_COLLECTABLES 1 // 1:ON, 0:OFF
 
 # include "1.srcs/get_next_line/get_next_line.h"
 # include "1.srcs/minilibx-linux/mlx.h"
-# include "1.srcs/minilibx-linux/mlx_int.h"
 # include "1.srcs/printf/ft_printf.h"
-# include <X11/Xlib.h>
-# include <X11/extensions/XShm.h>
-# include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
-# include <sys/ipc.h>
-# include <sys/shm.h>
 # include <unistd.h>
 
 typedef struct s_timeval
@@ -46,7 +40,9 @@ typedef struct s_map
 {
 	int			width;
 	int			height;
+	char		*map_name;
 	char		**g_map;
+	char		**g_map_copy;
 	void		*mlx;
 	void		*win;
 	t_timeval	*tm;
@@ -114,6 +110,9 @@ void			flood_fill_mark_reachable(char **map_copy, int x, int y,
 					int width, int height);
 char			**copy_map(t_map *map);
 void			free_map_copy(char **map_copy, int height);
-int				flood_fill_recursive(t_map *map, int y_pos, int x_pos);
+int				flood_fill_recursive(int x, int y, t_map *map);
+
+void			is_valid_fd(char *filename, t_map *map);
+void			maperror(t_map *map);
 
 #endif

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/22 22:20:10 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/29 15:29:22 by himiyaza         ###   ########.fr       */
+/*   Created: 2025/06/29 17:05:09 by himiyaza          #+#    #+#             */
+/*   Updated: 2025/06/30 01:53:18 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,31 @@
 
 void	is_sorrounded_by_walls(t_map *map)
 {
-	int y;
-	int x;
+	int	y;
+	int	x;
 
-	while(x< map->width)
+	y = 0;
+	x = 0;
+	while (x < map->width)
 	{
 		if (map->g_map[0][x] != '1' || map->g_map[map->height - 1][x] != '1')
 		{
-			perror("Error\nMap must be sorrounded by walls.");
+			ft_printf("Error\nMap must be sorrounded by walls.\n");
 			exit(1);
 		}
 		x++;
 	}
-	while(y + 1 < map->height -1)
+	while (y + 1 < map->height - 1)
 	{
 		if (map->g_map[y][0] != '1' || map->g_map[y][map->width - 1] != '1')
 		{
-			perror("Error\nMap must be sorrounded by walls.");
+			ft_printf("Error\nMap must be sorrounded by walls.\n");
 			exit(1);
 		}
 		y++;
 	}
 }
 
-	
 void	has_1collectible(t_map *map)
 {
 	int	collectible_count;
@@ -57,14 +58,14 @@ void	has_1collectible(t_map *map)
 		}
 		y++;
 	}
-	if (collectible_count >= 1)
+	if (!collectible_count)
 	{
 		perror("Error\nMap must have more than one collectible.");
 		exit(1);
-	}	
+	}
 }
 
-void	find_map_size(const char *filename, t_map *map)
+void	find_map_size(t_map *map)
 {
 	int		fd;
 	int		width;
@@ -72,12 +73,17 @@ void	find_map_size(const char *filename, t_map *map)
 	int		len;
 	char	*line;
 
-	fd = open(filename, O_RDONLY);
+	fd = open(map->map_name, O_RDONLY);
 	if (fd < 0)
 		exit(1);
 	height = 0;
 	width = 0;
 	line = get_next_line(fd);
+	if (line == NULL)
+	{
+		perror("Error\nfailed malloc at get_next_line");
+		exit(1);
+	}
 	len = 0;
 	while (line[len] && line[len] != '\n')
 		len++;
@@ -90,7 +96,7 @@ void	find_map_size(const char *filename, t_map *map)
 		free(line);
 		if (len != width)
 		{
-			perror("Error\nMap is not rectangular");
+			ft_printf("Error\nMap is not rectangular\n");
 			close(fd);
 			exit(1);
 		}
@@ -108,13 +114,13 @@ void	find_map_size(const char *filename, t_map *map)
 	}
 }
 
-void	read_map(const char *filename, t_map *map)
+void	read_map(t_map *map)
 {
 	int		fd;
 	int		i;
 	char	*line;
 
-	fd = open(filename, O_RDONLY);
+	fd = open(map->map_name, O_RDONLY);
 	if (fd < 0)
 		exit(1);
 	line = "abcd"; // Initialize line to avoid uninitialized variable warning
@@ -138,64 +144,141 @@ void	read_map(const char *filename, t_map *map)
 	}
 	close(fd);
 }
-int flood_fill_recursive(t_map *map , int y_pos, int x_pos)
+
+// マップをコピーする関数
+char	**copy_map(t_map *map)
 {
-	if( y_pos < 0 || map->height <= y_pos || 
-		x_pos < 0 || map->width <= x_pos)
-		return (0);
-	else if (map->g_map[y_pos][x_pos] == '1' || map->g_map[y_pos][x_pos] == 'V')
-		return (0);
-	else if (map->g_map[y_pos][x_pos] == 'E')
-		return (1);
-	else if (map->g_map[y_pos][x_pos] == '0' || map->g_map[y_pos][x_pos] == 'C' ||
-		map->g_map[y_pos][x_pos] == 'P' || map->g_map[y_pos][x_pos] == 'Q' || 
-		map->g_map[y_pos][x_pos] == 'W' || map->g_map[y_pos][x_pos] == 'X' ||
-		map->g_map[y_pos][x_pos] == 'Y' || map->g_map[y_pos][x_pos] == 'Z')
+	char	**map_copy;
+	int		y;
+	int		x;
+	int		len;
+
+	map_copy = malloc(sizeof(char *) * map->height);
+	if (!map_copy)
+		return (NULL);
+	y = 0;
+	while (y < map->height)
 	{
-		map->g_map[y_pos][x_pos] = 'V'; // Mark as visited
-		flood_fill_recursive(map, y_pos - 1, x_pos);
-		flood_fill_recursive(map, y_pos + 1, x_pos);
-		flood_fill_recursive(map, y_pos, x_pos - 1);
-		flood_fill_recursive(map, y_pos, x_pos + 1);
-		return (0);
+		len = 0;
+		while (map->g_map[y][len] && map->g_map[y][len] != '\n')
+			len++;
+		map_copy[y] = malloc(sizeof(char) * (len + 1));
+		if (!map_copy[y])
+		{
+			while (--y >= 0)
+				free(map_copy[y]);
+			free(map_copy);
+			return (NULL);
+		}
+		x = 0;
+		while (x < len)
+		{
+			map_copy[y][x] = map->g_map[y][x];
+			x++;
+		}
+		map_copy[y][len] = '\0';
+		y++;
 	}
-	else
-	{
-		perror("Error\nMap contains invalid characters.");
-		exit(1);
+	return (map_copy);
 }
+
+// メモリを解放する関数
+void	free_map_copy(char **gmap_copy, int height)
+{
+	int	y;
+
+	y = 0;
+	while (y < height)
+	{
+		free(gmap_copy[y]);
+		y++;
+	}
+	free(gmap_copy);
+}
+
+// フラッドフィル用の再帰関数（コピーされたマップ用）
+int	flood_fill_recursive(int x, int y, t_map *map)
+{
+	if (x < 0 || x >= map->width || y < 0 || y >= map->height)
+		return (0);
+	if (map->g_map_copy[y][x] == '1' || map->g_map_copy[y][x] == 'V')
+		return (0);
+	if (map->g_map_copy[y][x] == 'E')
+		return (1);
+	
+	map->g_map_copy[y][x] = 'V'; // Visited mark
+	
+	// 4方向をチェック
+	if (flood_fill_recursive(x + 1, y, map) ||
+		flood_fill_recursive(x - 1, y, map) ||
+		flood_fill_recursive(x, y + 1, map) ||
+		flood_fill_recursive(x, y - 1, map))
+		return (1);
+	
+	return (0);
 }
 
 void	has_valid_path(t_map *map)
 {
-	int y_pos;
-	int x_pos;
-	
-	y_pos = 0;
-	
-	while(y_pos < map->height)
+	int		player_x;
+	int		player_y;
+	int		y;
+	int		x;
+	int		path_exists;
+
+	// プレイヤーPの位置を探す
+	player_x = -1;
+	player_y = -1;
+	y = 0;
+	while (y < map->height)
 	{
-		x_pos = 0;
-		while(x_pos < map->width)
+		x = 0;
+		while (x < map->width)
 		{
-			if (map->g_map[y_pos][x_pos] == 'E')
+			if (map->g_map[y][x] == 'P')
+			{
+				player_x = x;
+				player_y = y;
 				break ;
-			x_pos++;
+			}
+			x++;
 		}
-		y_pos++;
+		if (player_x >= 0)
+			break ;
+		y++;
 	}
-	if(flood_fill_recursive(map, y_pos, x_pos))
-		return;
-	perror("Error\nMap must have a valid path to exit.");
-	exit(1);
+	
+	if (player_x < 0 || player_y < 0)
+	{
+		ft_printf("Error\nPlayer P not found in map\n");
+		exit(1);
+	}
+
+	// マップをコピー
+	map->g_map_copy = copy_map(map);
+	if (!map->g_map_copy)
+	{
+		ft_printf("Error\nFailed to copy map for path validation\n");
+		exit(1);
+	}
+
+	// フラッドフィルで出口まで到達可能かチェック
+	path_exists = flood_fill_recursive(player_x, player_y, map);
+	
+	free_map_copy(map->g_map_copy, map->height);
+	
+	if (!path_exists)
+	{
+		ft_printf("Error\nMap must have a valid path to exit.\n");
+		exit(1);
+	}
 }
 
-
-void 	has_exit_startingpos(t_map *map)
+void	has_exit_startingpos(t_map *map)
 {
 	int	exit_count;
 	int	starting_pos_countP;
-	int starting_pos_countQ;
+	int	starting_pos_countQ;
 	int	y;
 	int	x;
 
@@ -214,39 +297,69 @@ void 	has_exit_startingpos(t_map *map)
 				starting_pos_countP++;
 			else if (map->g_map[y][x] == 'Q')
 				starting_pos_countQ++;
-			
 			x++;
 		}
 		y++;
 	}
-	if (exit_count != 1 || starting_pos_countP != 2 || starting_pos_countQ != 1)
+	if (exit_count != 1 || starting_pos_countP != 1)
 	{
-		perror("Error\nMap must have exactly one E,P,Q.\n");
+		ft_printf("Error\nMap must have exactly one E,P\n");
 		exit(1);
 	}
 }
 
-
-void is_valid_difficulty()
+void	is_valid_difficulty(void)
 {
 	if (DIFFICULTY < 1 || DIFFICULTY > 3)
 	{
-		perror("Error\nInvalid difficulty level. Must be 1, 2, or 3.\n");
+		ft_printf("Error\nInvalid difficulty level. Must be 1, 2, or 3.\n");
 		exit(1);
 	}
 }
 
-void is_valid_fd()
+void	is_valid_fd(char *argv, t_map *map)
 {
 	int	fd;
-
-	fd = open(MAP_FILES, O_RDONLY);
-	if (fd < 0)
+	char *stdin_map;
+	char directory_name[] = "./3.maps/";
+	int i= 0;
+	
+	if(argv)
 	{
-		perror("Error\nFailed to open map file");
-		exit(1);
+		while(argv[i])
+			i++;
+		stdin_map = malloc(9 + i + 1);
+		i=0;
+		while(i<9)
+		{
+			stdin_map[i] = directory_name[i];
+			i++;
+		}
+		i=0;
+		while(argv[i] && argv[i] != '\n')
+		{
+			stdin_map[i+9] = argv[i];
+			i++;
+		}
+		stdin_map[i+9] = '\0';
+		fd = open(stdin_map, O_RDONLY);
+		if (fd >= 0)
+		{
+			close(fd);
+			map->map_name = stdin_map;
+			return ;
+		}
 	}
-	close(fd);
+	write(2, "failed to open map file from stdin.\n", 36);
+	fd = open(MAP_FILES, O_RDONLY);
+	if (fd >= 0)
+	{
+		close(fd);
+		map->map_name = MAP_FILES;
+		return ;
+	}
+	perror("Error\nFailed to open map file");
+	exit(1);
 }
 
 void	map_is_invalid(t_map *map)
@@ -268,18 +381,17 @@ void	map_is_invalid(t_map *map)
 	}
 }
 
-void maperror(t_map *map)
+void	maperror(t_map *map)
 {
-	find_map_size(MAP_FILES, map);
-	read_map(MAP_FILES, map);
-	is_valid_fd();
+	find_map_size(map);
+	read_map(map);
+	// is_valid_fd();
 	is_valid_difficulty();
 	map_is_invalid(map);
 	has_exit_startingpos(map);
 	has_1collectible(map);
 	is_sorrounded_by_walls(map);
 	has_valid_path(map);
-	
 }
 
 int	difficulty_var(int variable)
@@ -408,7 +520,6 @@ void	move_all_enemies(t_map *map)
 	}
 }
 
-
 static void	draw_tile(void *mlx, void *win, int x, int y, char c, t_map *map)
 {
 	int	i;
@@ -491,27 +602,27 @@ void	draw_win_screen(void *mlx, void *win, const char *msg, int color)
 
 void	ft_putnbr_mlx(int n, void *mlx, void *win, int x, int y)
 {
-    char	buf[12];
-    int		i;
-    int		num;
-    int		sign;
+	char	buf[12];
+	int		i;
+	int		num;
+	int		sign;
 
-    i = 11;
-    buf[i--] = '\0';
-    sign = (n < 0);
-    num = n;
-    if (n == 0)
-        buf[i--] = '0';
-    if (n < 0)
-        num = -n;
-    while (num > 0)
-    {
-        buf[i--] = '0' + (num % 10);
-        num /= 10;
-    }
-    if (sign)
-        buf[i--] = '-';
-    mlx_string_put(mlx, win, x, y, 0x000000, &buf[i + 1]);
+	i = 11;
+	buf[i--] = '\0';
+	sign = (n < 0);
+	num = n;
+	if (n == 0)
+		buf[i--] = '0';
+	if (n < 0)
+		num = -n;
+	while (num > 0)
+	{
+		buf[i--] = '0' + (num % 10);
+		num /= 10;
+	}
+	if (sign)
+		buf[i--] = '-';
+	mlx_string_put(mlx, win, x, y, 0x000000, &buf[i + 1]);
 }
 
 void	draw_map(t_map *map)
@@ -547,18 +658,19 @@ void	draw_map(t_map *map)
 		while (x < VIEW_W + 1 && x < map->width)
 		{
 			if (map->g_map[map_y])
-				draw_tile(map->mlx, map->win, x - 1, y, map->g_map[map_y][x], map);
+				draw_tile(map->mlx, map->win, x - 1, y, map->g_map[map_y][x],
+					map);
 			x++;
 		}
 		y++;
 		// printf("Drawing row %d\n", y);
 	};
 	// if (map->show_moves > 0)
-    // {
+	// {
 	mlx_string_put(map->mlx, map->win, 10, 20, 0x000000, "moves:");
 	ft_putnbr_mlx(map->player1_moves, map->mlx, map->win, 50, 20);
-    //     map->show_moves=0; // 1回だけ表示したらOFF
-    // }
+	//     map->show_moves=0; // 1回だけ表示したらOFF
+	// }
 }
 
 // int	scroll_map(void *param)
@@ -688,6 +800,30 @@ void	check_player_out_of_screen(t_map *map)
 	}
 }
 
+int collect_all_collectibles(t_map *map)
+{
+	int	y;
+	int	x;
+
+	if(MODE_COLLECTABLES == 0)
+		return(1); 
+	y = 0;
+	while (y < map->height)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			if (map->g_map[y][x] == 'C')
+			{
+				return(0); 
+			}
+			x++;
+		}
+		y++;
+	}
+	return(1);
+}
+
 // プレイヤー移動（キャラ, dx, dy, map, 相手座標）
 void	move_player(t_map *map, char who, int dx, int dy)
 {
@@ -699,7 +835,7 @@ void	move_player(t_map *map, char who, int dx, int dy)
 	if (who == 'P')
 	{
 		map->player1_moves++;
-        map->show_moves = 1; // 動いたら表示フラグON
+		map->show_moves = 1; // 動いたら表示フラグON
 		ft_printf("player1 moves: %d\n", map->player1_moves);
 		px = &map->player1_x;
 		py = &map->player1_y;
@@ -758,7 +894,10 @@ void	move_player(t_map *map, char who, int dx, int dy)
 		return ;
 	if (who == 'P' && map->g_map[ny][nx] == 'E')
 	{
-		map->player1_wins = 1;
+		if(collect_all_collectibles(map) == 1)
+		{
+			map->player1_wins = 1;
+		}
 		return ;
 	}
 	if (who == 'Q' && map->g_map[ny][nx] == 'E')
@@ -776,7 +915,7 @@ void	move_player(t_map *map, char who, int dx, int dy)
 }
 
 // キー入力
-int	wasd_jyuji_key(int keycode, t_map	*map)
+int	wasd_jyuji_key(int keycode, t_map *map)
 {
 	// プレイヤー1: wasd
 	if (keycode == 'w')
@@ -829,8 +968,8 @@ int	nakami(t_map map)
 			"2.textures/player1_left.xpm", &img_w, &img_h);
 	map.player1_img_right = mlx_xpm_file_to_image(map.mlx,
 			"2.textures/player1_right.xpm", &img_w, &img_h);
-	map.player1_img_up = mlx_xpm_file_to_image(map.mlx, "2.textures/player1_up.xpm",
-			&img_w, &img_h);
+	map.player1_img_up = mlx_xpm_file_to_image(map.mlx,
+			"2.textures/player1_up.xpm", &img_w, &img_h);
 	map.player1_img_down = mlx_xpm_file_to_image(map.mlx,
 			"2.textures/player1_down.xpm", &img_w, &img_h);
 
@@ -838,21 +977,21 @@ int	nakami(t_map map)
 			"2.textures/player2_left.xpm", &img_w, &img_h);
 	map.player2_img_right = mlx_xpm_file_to_image(map.mlx,
 			"2.textures/player2_right.xpm", &img_w, &img_h);
-	map.player2_img_up = mlx_xpm_file_to_image(map.mlx, "2.textures/player2_up.xpm",
-			&img_w, &img_h);
+	map.player2_img_up = mlx_xpm_file_to_image(map.mlx,
+			"2.textures/player2_up.xpm", &img_w, &img_h);
 	map.player2_img_down = mlx_xpm_file_to_image(map.mlx,
 			"2.textures/player2_down.xpm", &img_w, &img_h);
 
 	map.wall_img = mlx_xpm_file_to_image(map.mlx, "2.textures/wall.xpm", &img_w,
 			&img_h);
-	map.empty_img = mlx_xpm_file_to_image(map.mlx, "2.textures/empty.xpm", &img_w,
-			&img_h);
+	map.empty_img = mlx_xpm_file_to_image(map.mlx, "2.textures/empty.xpm",
+			&img_w, &img_h);
 	map.collect_img = mlx_xpm_file_to_image(map.mlx, "2.textures/collect.xpm",
 			&img_w, &img_h);
 	map.exit_img = mlx_xpm_file_to_image(map.mlx, "2.textures/exit.xpm", &img_w,
 			&img_h);
-	map.enemy_img = mlx_xpm_file_to_image(map.mlx, "2.textures/enemy.xpm", &img_w,
-			&img_h);
+	map.enemy_img = mlx_xpm_file_to_image(map.mlx, "2.textures/enemy.xpm",
+			&img_w, &img_h);
 
 	map.win = mlx_new_window(map.mlx, VIEW_W * TILE, VIEW_H * TILE, "ATAOKA");
 	mlx_hook(map.win, 17, 0, close_window, NULL);
