@@ -6,7 +6,7 @@
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 04:08:30 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/27 15:39:38 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/06/29 09:33:35 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	main(void)
 {
-	void *mlx;        //スクリーン接続識別子
+	t_map *map;
 
-    // maperror();
-	mlx = mlx_init(); // mlxの機能を使う前に一度呼び出す必要がある
-	nakami(mlx);      // nakami関数を呼び出す
+    maperror(map);
+	map->mlx = mlx_init(); // mlxの機能を使う前に一度呼び出す必要がある
+	nakami(*map);      // nakami関数を呼び出す
 	return (1);
 }
 
