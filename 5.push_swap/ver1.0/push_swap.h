@@ -6,7 +6,7 @@
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:57:07 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/22 20:31:13 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/07/03 02:53:05 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void								bubble_sort(int argc, t_node **stack_a,
 t_node								*copy_stack_2stack_a(t_node *stack);
 char								*ultimate_lis_turk100(t_node *stack_a);
 int									super_find_lis(int *arr_a, int *arr_lis);
+int									super_lis(int *arr_a, int *arr_lis);
 int									super_swapped_lis(int *arr_a, int *arr_lis);
 
 #endif

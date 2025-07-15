@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja-JP">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="applicable-device" content="pc,mobile">
+
+    <title>ジャズる - Jazzle</title>
+    <meta name="keywords"
+        content="Apple Store, Apple, ショッピング,ライフスタイル, iosアプリ, アプリ, appstore, app store, iphone, ipad, ipod touch, itouch, itunes">
+    <meta name="description" content="Apple Store Appは最新のApple製品を見たり、学んだり、購入するのに最適。あなたがどこにいてもシームレスな体験をお届けします。">
+
+    <link rel="canonical" href="https://apps.apple.com/jp/app/apple-store/id375380948">
+    <link rel="icon" sizes="48x48"
+        href="https://apps.apple.com/assets/images/favicon/favicon-apps-48-fad34e0d87e86dcf72ded1faff4ba9d0.png"
+        type="image/png">
+
+    <!-- Simple CSS for basic styling -->
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.47059;
+        }
+
+        .main-content {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .app-icon {
+            width: 175px;
+            height: 175px;
+            border-radius: 38px;
+            flex-shrink: 0;
+        }
+
+        .app-info {
+            flex: 1;
+        }
+
+        .app-title {
+            font-size: 48px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            line-height: 1.08349;
+        }
+
+        .app-subtitle {
+            font-size: 19px;
+            color: #86868b;
+            margin: 0 0 16px 0;
+        }
+
+        .app-developer {
+            font-size: 17px;
+            color: #06c;
+            text-decoration: none;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .rating-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stars {
+            color: #ff9500;
+            font-size: 16px;
+        }
+
+        .rating-text {
+            color: #86868b;
+            font-size: 14px;
+        }
+
+        .price {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+
+        .age-badge {
+            background-color: #86868b;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .section {
+            margin: 30px 0;
+            padding: 20px 0;
+            border-bottom: 1px solid #d2d2d7;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+        }
+
+        .screenshots {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .screenshot {
+            width: 250px;
+            height: 450px;
+            border-radius: 12px;
+            background-color: #f2f2f2;
+            flex-shrink: 0;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .description {
+            font-size: 17px;
+            line-height: 1.5;
+            color: #1d1d1f;
+        }
+
+        .reviews {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .review {
+            padding: 20px;
+            background-color: #f5f5f7;
+            border-radius: 12px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .review-user {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .review-date {
+            color: #86868b;
+            font-size: 12px;
+        }
+
+        .review-stars {
+            color: #ff9500;
+            margin-bottom: 8px;
+        }
+
+        .review-text {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .app-item {
+            text-align: center;
+        }
+
+        .app-item-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            background-color: #f2f2f2;
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #86868b;
+            font-size: 12px;
+        }
+
+        .app-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .app-item-category {
+            font-size: 12px;
+            color: #86868b;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .app-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .app-icon {
+                width: 120px;
+                height: 120px;
+                align-self: center;
+            }
+
+            .app-title {
+                font-size: 32px;
+            }
+
+            .screenshots {
+                gap: 8px;
+            }
+
+            .screenshot {
+                width: 130px;
+                height: 280px;
+            }
+
+            .screenshot img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                border-radius: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-content">
+        <!-- App Header -->
+        <div class="app-header">
+            <img src="app_icon.webp" alt="Jazzle" class="app-icon">
+            <div class="app-info">
+                <h1 class="app-title">Jazzle<span class="age-badge">4+</span></h1>
+                <h2 class="app-subtitle">ジャズともと簡単に名刺交換、ジャズるを使って</h2>
+                <a href="#" class="app-developer">ひかっしー</a>
+                <div class="rating-container">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-text">5.0 • 2.5万件の評価</span>
+                </div>
+                <div class="price">無料</div>
+            </div>
+        </div>
+
+        <!-- Screenshots Section -->
+        <div class="section">
+            <h2 class="section-title">スクリーンショット</h2>
+            <div class="screenshots">
+                <div class="screenshot"><img src="screenshot1.webp"></div>
+                <div class="screenshot"><img src="screenshot2.webp"></div>
+                <div class="screenshot"><img src="screenshot3.webp"></div>
+            </div>
+        </div>
+
+        <!-- Description Section -->
+        <div class="section">
+            <h2 class="section-title">説明</h2>
+            <div class="description">
+                <p>Jazzle（ジャズる）は、セッション後/ライブ後のつながりをスムーズに、そして楽しく保つためのデジタル名刺アプリです。どこにいても、ジャズ仲間とつながれる体験を提供します。</p>
+
+                <p><strong>「カード」タブで名刺を即交換</strong></p>
+                <p>ふるふる機能やID検索で簡単に名刺を交換できます。自分のパートやプロフィール、SNSリンクを載せた、あなただけのカードを表示できます。</p>
+                <p>動画や録音リンクも共有できるので、印象に残る名刺になります。</p>
+
+                <p><strong>「ジャズとも」タブで人脈を管理</strong></p>
+                <p>どこで誰と出会ったか、セッションの内容、印象などを記録しておけます。タグ機能で分類しやすく、探しやすくなります。</p>
+                <p>お気に入り登録やメモ機能で、大切な仲間との関係を深めることができます。</p>
+
+                <p><strong>「名刺を作る」タブで自由にカスタマイズ</strong></p>
+                <p>かわいい、渋い、ビンテージ風など、テーマに合わせたデザインテンプレートから選択可能。色、フォント、アイコンまで自分らしく設定できます。</p>
+                <p>名刺はそのままWeb公開も可能。あなたのプロフィールページとしてシェアできます。</p>
+            </div>
+        </div>
+        <!-- New Features Section -->
+        <div class="section">
+            <h2 class="section-title">新機能</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                    <div style="color: #86868b; font-size: 14px;">2025年6月30日</div>
+                    <div style="font-weight: 600;">バージョン 6.5</div>
+                </div>
+            </div>
+            <div class="description">
+                <p>- さまざまな機能強化とパフォーマンスの向上。</p>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="section">
+            <h2 class="section-title">評価とレビュー</h2>
+            <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                <div style="font-size: 48px; font-weight: 600;">3.0</div>
+                <div>
+                    <div style="color: #86868b;">／5</div>
+                    <div style="color: #86868b; font-size: 14px;">2.5万件の評価</div>
+                </div>
+            </div>
+
+            <div class="reviews">
+                <div class="review">
+                    <div class="review-header">
+                        <span class="review-user">TofuAssam</span>
+                        <span class="review-date">2024/12/30</span>
+                    </div>
+                    <div class="review-stars">★★★☆☆</div>
+                    <div class="review-text">アプリの動作は安定していますが、もう少し機能が充実してほしいです。</div>
+                </div>
+
+                <div class="review">
+                    <div class="review-header">
+                        <span class="review-user">ニックなトウコマン</span>
+                        <span class="review-date">2024/12/25</span>
+                    </div>
+                    <div class="review-stars">★★☆☆☆</div>
+                    <div class="review-text">使いやすいインターフェースですが、時々動作が重くなることがあります。</div>
+                </div>
+
+                <div class="review">
+                    <div class="review-header">
+                        <span class="review-user">SWAT☆CREW</span>
+                        <span class="review-date">2024/12/20</span>
+                    </div>
+                    <div class="review-stars">★☆☆☆☆</div>
+                    <div class="review-text">期待していたほどの機能がなく、少し残念でした。今後のアップデートに期待します。</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Apps Section -->
+        <div class="section">
+            <h2 class="section-title">このデベロッパのその他のApp</h2>
+            <div class="app-grid">
+                <div class="app-item">
+                    <div class="app-item-icon">📱</div>
+                    <div class="app-item-title">Apple Books</div>
+                    <div class="app-item-category">ブック</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-item-icon">🎵</div>
+                    <div class="app-item-title">Apple Podcasts</div>
+                    <div class="app-item-category">エンターテインメント</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-item-icon">👥</div>
+                    <div class="app-item-title">友達を探す</div>
+                    <div class="app-item-category">ソーシャルネットワーキング</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-item-icon">📊</div>
+                    <div class="app-item-title">Keynote</div>
+                    <div class="app-item-category">仕事効率化</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-item-icon">🎬</div>
+                    <div class="app-item-title">iMovie</div>
+                    <div class="app-item-category">写真／ビデオ</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-item-icon">🎹</div>
+                    <div class="app-item-title">GarageBand</div>
+                    <div class="app-item-category">ミュージック</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Similar Apps Section -->
+        <div class="section">
+            <h2 class="section-title">他のおすすめ</h2>
+            <div class="app-grid">
+                <div class="app-item">
+                    <div class="app-item-icon">🛍️</div>
+                    <div class="app-item-title">B&H Photo, Video & Pro Audio</div>
+                    <div class="app-item-category">ショッピング</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-item-icon">🏭</div>
+                    <div class="app-item-title">索尼中国</div>
+                    <div class="app-item-category">ショッピング</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-item-icon">🛒</div>
+                    <div class="app-item-title">Plug® - Shop Tech</div>
+                    <div class="app-item-category">ショッピング</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-item-icon">🚁</div>
+                    <div class="app-item-title">DJI Store</div>
+                    <div class="app-item-category">ショッピング</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-item-icon">👜</div>
+                    <div class="app-item-title">Louis Vuitton</div>
+                    <div class="app-item-category">ショッピング</div>
+                </div>
+                <div class="app-item">
+                    <div class="app-item-icon">👕</div>
+                    <div class="app-item-title">Supreme</div>
+                    <div class="app-item-category">ショッピング</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Information Section -->
+        <div class="section">
+            <h2 class="section-title">情報</h2>
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; font-size: 14px;">
+                <div>
+                    <div style="font-weight: 600; margin-bottom: 8px;">販売元</div>
+                    <div style="color: #86868b;">Apple</div>
+                </div>
+                <div>
+                    <div style="font-weight: 600; margin-bottom: 8px;">サイズ</div>
+                    <div style="color: #86868b;">89.5MB</div>
+                </div>
+                <div>
+                    <div style="font-weight: 600; margin-bottom: 8px;">カテゴリ</div>
+                    <div style="color: #86868b;">ショッピング</div>
+                </div>
+                <div>
+                    <div style="font-weight: 600; margin-bottom: 8px;">互換性</div>
+                    <div style="color: #86868b;">iOS 17.0およびwatchOS 9.0以降が必要です。iPhone、iPad、およびiPod touchに対応。</div>
+                </div>
+                <div>
+                    <div style="font-weight: 600; margin-bottom: 8px;">言語</div>
+                    <div style="color: #86868b;">日本語、英語、フランス語、ドイツ語、スペイン語</div>
+                </div>
+                <div>
+                    <div style="font-weight: 600; margin-bottom: 8px;">年齢</div>
+                    <div style="color: #86868b;">4+ 対象年齢</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

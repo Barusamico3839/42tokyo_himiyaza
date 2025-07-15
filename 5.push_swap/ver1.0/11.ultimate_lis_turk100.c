@@ -6,7 +6,7 @@
 /*   By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:06:23 by himiyaza          #+#    #+#             */
-/*   Updated: 2025/06/22 20:34:21 by himiyaza         ###   ########.fr       */
+/*   Updated: 2025/07/04 03:57:20 by himiyaza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*ultimate_lis_turk100(t_node *stack_a)
 	// stack_a = apply_lis_arr_to_list(arr_lis, stack_a);
 	// result = turk(arr_lis_len, stack_a);
 	i=0;
-	while(i < 100)
+	while(i < 5)
 	{
 		printf("%d:%d:%d\n", i, arr_lis[i], arr_a[i]);
 		i++;

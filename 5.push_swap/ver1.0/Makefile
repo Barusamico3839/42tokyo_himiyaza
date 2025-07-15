@@ -1,29 +1,66 @@
-NAME = push_swap.a
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: himiyaza <himiyaza@student.42tokyo.jp>     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/07/03 00:00:00 by himiyaza          #+#    #+#              #
+#    Updated: 2025/07/03 01:02:56 by himiyaza         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# Program name
+NAME = push_swap
+
+# Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -g
-SRC = 2.push_swap.c 3.make_list.c 4.pa_pb.c 5.sa_sb_ss.c 6.ra_rb_rr.c 7.rra_rrb_rrr.c \
-		 8.coordinate_compression.c 9.bubble_sort_tekitou.c 10.push_swaps100.c \
-		 11.ultimate_lis_turk100.c 12.super_swapped_lis.c 13.lis.c 13.turk.c 14.push_swaps500.c   
-OBJ = $(SRC:.c=.o)
-TEST_SRC = 1.main.c
-TEST_OBJ = $(TEST_SRC:.c=.o)
-TEST_EXE = test.out
+CFLAGS = -Wall -Wextra -Werror
 
-all: 
+# Source files
+SRCS = 1.main.c \
+       2.push_swap.c \
+       3.make_list.c \
+       4.pa_pb.c \
+       5.sa_sb_ss.c \
+       6.ra_rb_rr.c \
+       7.rra_rrb_rrr.c \
+       8.coordinate_compression.c \
+       9.bubble_sort_tekitou.c \
+       10.push_swaps100.c \
+       11.ultimate_lis_turk100.c \
+       12.super_swapped_lis.c \
+       13.turk.c \
+       14.push_swaps500.c \
+	   12.5.super_swapped_lis.c
 
-$(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+# Object files
+OBJS = $(SRCS:.c=.o)
 
+# Header file
+HEADER = push_swap.h
+
+# Default target
+all: $(NAME)
+
+# Build the main program
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+
+# Compile source files to object files
+%.o: %.c $(HEADER)
+	$(CC) $(CFLAGS) -c $< -o $@	
+
+# Clean object files
 clean:
-	rm -f $(OBJ) $(TEST_OBJ)
+	rm -f $(OBJS)
 
+# Clean everything
 fclean: clean
-	rm -f $(NAME) $(TEST_EXE) a.out
+	rm -f $(NAME)
 
+# Rebuild everything
 re: fclean all
 
-test: $(OBJ) $(TEST_OBJ)
-	$(CC) $(CFLAGS) -o $(TEST_EXE) $(TEST_OBJ) $(OBJ)
-	@echo "Run ./$(TEST_EXE) to test."
-
-.PHONY: all clean fclean re test
+# Phony targets
+.PHONY: all clean fclean re
